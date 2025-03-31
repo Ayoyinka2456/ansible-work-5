@@ -1,0 +1,56 @@
+#  ansible < n1 /n2/ g1/ g2 > -m file -a "path=~/02_new_dir state=directory"
+---
+
+# FIRST PLAY --> multiple tasks
+- name: Update n1 server
+  hosts: n1
+  remote_user: centos
+
+  tasks:
+
+  ## n1 server
+  - name: Create a directory
+    file:
+      path: ~/new_dir_1
+      state: directory
+
+  - name: Create a directory
+    file:
+      path: ~/new_dir_2
+      state: directory
+
+
+# SECOND PLAY --> multiple tasks
+
+- name: Update n2 server
+  hosts: n2
+  remote_user: centos
+
+  tasks:
+  - name: Create a directory
+    file:
+      path: ~/new_dir_1
+      state: directory
+
+  - name: Create a directory
+    file:
+      path: ~/new_dir_2
+      state: directory
+
+
+# THIRD PLAY --> multiple tasks
+- name: Update g1 servers
+  hosts: g1
+  remote_user: centos
+
+  tasks:
+  - name: Create a directory in all servers in g1
+    file:
+      path: ~/new_dir_g1
+      state: directory
+
+  - name: Create a directory in all servers in g1
+    file:
+      path: ~/new_dir_g2
+      state: directory
+...

@@ -1,0 +1,13 @@
+#Ansible g1 -m file -a "path=~/01_new_dir state=directory"
+---
+- name: Update n1 server
+  hosts: g1
+  remote_user: centos
+
+  tasks:
+  - name: Create a directory in all servers in g1
+    file:
+      path: ~/01_new_dir
+      state: directory
+
+...

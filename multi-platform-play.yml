@@ -1,0 +1,52 @@
+
+---
+
+# FIRST PLAY --> multiple tasks
+- name: Install HTTPD server
+  hosts: g1
+  become: yes
+  tasks:
+  - name: install Apache on Debian family
+    apt:
+      name: apache2
+      state: present
+      update_cache: yes
+    when: ansible_os_family == "Debian"
+
+  - name: start Apache2
+    service:
+      name: apache2
+      state: started
+    when: ansible_os_family == "Debian"
+
+  - name: enable Apache2
+    service:
+      name: apache2
+      enabled: true
+    when: ansible_os_family == "Debian"
+
+  - name: install Apache on Red Hat family
+    dnf:
+      name: httpd
+      state: present
+      update_cache: yes
+    when: ansible_os_family == "RedHat" and ansible_user_id == 'ec2-user'
+  - name: install Apache on Red Hat family
+    yum:
+      name: httpd
+      state: present
+      update_cache: yes
+    when: ansible_os_family == "RedHat" and ansible_user_id == 'centos'
+
+  - name: start Apache
+    service:
+      name: httpd
+      state: started
+    when: ansible_os_family == "RedHat"
+
+  - name: enable Apache
+    service:
+      name: httpd
+      enabled: true
+    when: ansible_os_family == "RedHat"
+...

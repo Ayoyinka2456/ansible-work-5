@@ -1,0 +1,24 @@
+---
+- name: Dynamic vars page
+  hosts: g1
+  become: yes
+  vars:
+    myusername: Ayoyinka2456
+
+  tasks:
+    - name: Use an external service to get public IP
+      uri:
+        url: "https://api64.ipify.org?format=json"
+        method: GET
+      register: public_ip_response
+
+    - name: Extract public IP address from the response
+      set_fact:
+        public_ip: "{{ public_ip_response.json.ip }}"
+
+    - name: Update Dynamic page
+      template:
+        src: dynamic.j2
+        dest: /var/www/html/dynamic.html
+# just a comment
+...

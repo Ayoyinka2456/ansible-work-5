@@ -1,0 +1,26 @@
+---
+- name: Static page
+  hosts: g1
+  become: yes
+
+  tasks:
+    - name: Use an external service to get public IP
+      uri:
+        url: "https://api64.ipify.org?format=json"
+        method: GET
+      register: public_ip_response
+
+    - name: Extract public IP address from the response
+      set_fact:
+        public_ip: "{{ public_ip_response.json.ip }}"
+
+    - name: Display the public IP
+      debug:
+        var: public_ip
+
+    - name: Update Static HTML
+      template:
+        src: dynamic.j2
+        dest: /var/www/html/dynamic.html
+# just a comment
+...
