@@ -1,5 +1,4 @@
 ---
-# FIRST PLAY --> multiple tasks
 - name: install Apache on Debian family
   apt:
     name: apache2
